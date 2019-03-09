@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+	<title>Landing Page</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+	<style type="text/css">
+		body{
+			background: url("{% static 'img\hp5.jpg' %}") no-repeat;
+			background-size: cover;
+			background-position:;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8" style="padding: 30px;">
+				<div style="width: 100px height:100px; ">
+					<img src="{% static 'img\sowani.jpg' %}">
+					<h1 class="" style="float: right; color: white; margin-right: 550px; margin-top:50px;">SOWANI</h1>
+				</div>
+				<div style=" background:red;">
+
+				</div>
+			</div>
+			<div class="col-md-4" style="background: rgba(0,0,0,0.8); height:666px; padding: 30px;">
+				<div style="text-align: right; margin-top: 100px; font-family: Arial, Helvetica, sans-serif;">
+					<h1 style="color:#FF4F1B; font-weight:bold; font-size:;">SOWANI,</h1> 
+					<h1 style="color:#FF4F1B; margin-top: -10px; font-weight:bold;">RESERVATIONS</h1> 
+					<h1 style="color:#FF4F1B; margin-top: -10px; font-weight:bold;">AT YOUR TIPS.</h1>
+				<h2 style="color: white; font-size:; font-weight:bold;">check menus, discover,</h2> 
+				<h2 style="color: white; font-size:; font-weight:bold; margin-top: -15px;"> review and make </h2>
+				<h2 style="color: white; font-size:; font-weight:bold; margin-top: -15px;">table reservations to</h2>
+				<h2 style="color: white; font-size:; font-weight:bold; margin-top: -15px;">any bar or restaurant </h2>
+				<h2 style="color: white; font-size:; font-weight:bold; margin-top: -15px;">in your city.</h2>
+				</div>
+				<div style="text-align: center;"><p style="color: white;">Want to review bars/restaurants?</p></div>
+
+					<form action="" method="post">
+						{%csrf_token%}
+						<div class="input-group pull-right" style="width: 350px;">
+							{{form.email}}
+					  <!--<input type="text" class="form-control" placeholder="Enter your email">-->
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="submit" style="background: #FF4F1B; color: white; width: 100px;">Invite</button>
+				      </span>
+				    </div>
+					</form>
+						
+			</div>
+		</div>
+	</div>
+	<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</body>
+</html>
