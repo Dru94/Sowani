@@ -1,0 +1,39 @@
+{% extends 'dashboard_base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+	<div class="content">
+        <div class="container-fluid">
+          	<div class="row">
+          		{% for user in users %}
+            	<div class="col-md-4">
+              		<div class="card card-profile">
+		                <div class="card-avatar">
+		               		{% if user.photo %}
+		                		<a href="{{ user.photo.url }}" data-lightbox="8marc">
+		                			<img src="{{ user.photo.url }}">
+		                		</a>
+		                	{% else %}
+		                		<img src="{% static "images/user.png" %}">
+		                	{% endif %}
+		                </div>
+		                <div class="card-body">
+		                	<h6 class="card-category text-gray">Username: {{ user.user }}</h6>
+		                  	<h4 class="card-title">{{ user.user.first_name }} {{ user.user.last_name }}</h4>
+		                  	<p class="card-title">{% if user.role %}{{ user.role }}{% else %}No user role{% endif %}</p>
+		                  	<a href="#pablo" class="btn btn-primary btn-round">View Projects</a>
+		                </div>
+              		</div>
+            	</div>
+            	{% endfor %}
+          	</div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -1,2 +1,0 @@
-# sowani
-Sowani.com

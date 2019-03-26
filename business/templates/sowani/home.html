@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body >
+{% block content %}
+  	<header class="masthead" style="background-image: url('static/img/home_bg.png')">
+    	<div class="overlay"></div>
+    	<div class="container">
+      		<div class="row">
+        		<div class="col-lg-10 col-md-11 mx-auto">
+          			<div class="site-heading" style="padding: 100px 0;">
+          				<img src="{% static "img/sowani.jpg" %}" class="img-responsive logo-size">
+          				<h5>Sowani</h5>
+          				<br>
+          				<h5 style="font-weight: 2px;">Reservations to the best restaurants, bars, cafes and hotels in your city</h5>
+          				<br>
+            			<form>
+            				<div class="row">
+            					<div class="col-12 col-md-3" >
+            						<div class="dropdown" >
+			    						<button class="btn btn-primary dropdown-toggle border-radius" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: #ffffff; color: #000000; height: 40px;">Location</button>
+									    <div class="dropdown-menu dropdown-primary">
+									    	{% for location in locations %}
+											    <a class="dropdown-item" href="#">{{ location.name }}</a>
+											{% endfor %}
+									    </div>
+									</div>
+            					</div>
+            					<div class="col-12 col-md-6 mb-2 mb-md-0">
+            						<input type="type" class="form-control form-control-lg" placeholder="Search for Bar, Cafe, Restaurant ..." style="height: 40px; font-size: 16px;">
+            					</div>
+            					<div class="col-12 col-md-3">
+				                	<button type="submit" class="btn btn-primary border-radius" style="background: #ff4c1b; border: #ff4c1b; height: 40px;">Search</button>
+				              	</div>
+            				</div>
+            			</form>
+          			</div>
+        		</div>
+      		</div>
+    	</div>
+  	</header>
+
+  	<div class="container" style="max-width: 900px;">
+		<h6>Quick Search</h6>
+    	<div class="row" style="background-color: #ffffff; padding-top: 10px; padding-bottom: 10px;">
+    		{% for category in categories %}
+      		<div class="col-md-3 col-sm-6 portfolio-item">
+    			<a href="/category/{{ category.id }}/{{ category.slug }}"><img src="{% if category.image %}{{ category.image.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; max-height: 300px; overflow: hidden;" class="img-responsive" alt=""></a>
+				<h6 style="text-align: center;"><a href="">{{ category.name }}</a></h6> 
+      		</div>
+      		{% endfor %}
+    	</div>
+	</div>
+	<br>
+
+	<div class="container" style="max-width: 930px;">
+		<div class="row">
+			<div class="col-md-10">
+				<h6>Best Restaurants in Kampala</h6>
+			</div>
+			<div class="col-md-2">
+				<a href="">
+					<h6 style="text-align: right;"><a href="{% url "business:restaurants" %}">View All</a></h6>
+				</a>
+			</div>
+		</div>
+		<hr>
+		<div class="row" style="font-size: 2px;">
+<!-- 			<div class="col-md-2">
+				<img src="{% static "img/restaurants_home.jpg" %}" style="width: 165px; height: 165px;">
+				<div class="centered"><h6>The best Restaurants in Kampala</h6></div>
+			</div> -->
+			<div class="col-md-12">
+				<div class="container-fluid">
+					<div id="owl-restaurants" class="owl-carousel owl-theme">
+						{% for r, avg_rating, number_of_reviews in restaurants %}
+							<div class="carousel-div">
+								<a href="/detail/{{ r.id }}/{{ r.slug }}/"><img src="{% if r.photos %}{{ r.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" class="img-responsive carousel-img" alt=""></a>
+								<a href="/detail/{{ r.id }}/{{ r.slug }}/"><h6 style="margin-top: 5px; font-weight: 0;">{{ r.name }}</h6></a>
+								<small>{{ r.suburb }} - {{ r.location }}</small>
+				            	<div class="row">
+				            		<div class="col-md-6" style="padding-right: 0px; margin-right: 0px;">
+						            	{% if avg_rating.rating__avg == 0 %}
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 1 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 2 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 3 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 4 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% else %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% endif %}
+				            		</div>
+				            		<div class="col-md-6">
+				            			<small>{{ number_of_reviews }} Reviews</small>
+				            		</div>
+				            	</div>
+							</div>
+			      		{% endfor %}
+					</div>
+					<div class="customNavigation">
+						<span class="pager-left"><a class="btn btn-link prev"><span class="glyphicon glyphicon-chevron-left"></span></a></span>
+						<span class="pager-right"><a class="btn btn-link next"><span class="glyphicon glyphicon-chevron-right"></span></a></span>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container" style="max-width: 930px;">
+		<div class="row">
+			<div class="col-md-10">
+				<h6>Best Bars in Kampala</h6>
+			</div>
+			<div class="col-md-2">
+				<a href="">
+					<h6 style="text-align: right;"><a href="{% url "business:restaurants" %}">View All</a></h6>
+				</a>
+			</div>
+		</div>
+		<hr>
+		<div class="row" style="font-size: 2px;">
+<!-- 			<div class="col-md-2">
+				<img src="{% static "img/bars_home.jpg" %}" style="width: 165px; height: 165px;">
+				<div class="centered"><h6>The best Bars in Kampala</h6></div>
+			</div> -->
+			<div class="col-md-12">
+				<div class="container-fluid">
+					<div id="owl-bars" class="owl-carousel owl-theme">
+						{% for b, avg_rating, number_of_reviews in bars %}
+						{{ b.name }}
+							<div class="carousel-div">
+								<a href="/detail/{{ b.id }}/{{ b.slug }}/"><img src="{% if b.photos %}{{ b.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" class="img-responsive carousel-img" alt=""></a>
+								<a href="/detail/{{ b.id }}/{{ b.slug }}/"><h6 style="margin-top: 5px; font-weight: 0;">{{ b.name }}</h6></a>
+								<small>{{ b.suburb }} - {{ b.location }}</small>
+				            	<div class="row">
+				            		<div class="col-md-6" style="padding-right: 0px; margin-right: 0px;">
+						            	{% if avg_rating.rating__avg == 0 %}
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 1 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 2 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 3 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 4 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% else %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% endif %}
+				            		</div>
+				            		<div class="col-md-6">
+				            			<small>{{ number_of_reviews }} Reviews</small>
+				            		</div>
+				            	</div>
+							</div>
+			      		{% endfor %}
+					</div>
+					<div class="customNavigation">
+						<span class="pager-left"><a class="btn btn-link prev"><span class="glyphicon glyphicon-chevron-left"></span></a></span>
+						<span class="pager-right"><a class="btn btn-link next"><span class="glyphicon glyphicon-chevron-right"></span></a></span>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container" style="max-width: 930px;">
+		<div class="row">
+			<div class="col-md-10">
+				<h6>Best Hotels in Kampala</h6>
+			</div>
+			<div class="col-md-2">
+				<a href="">
+					<h6 style="text-align: right;"><a href="{% url "business:hotels" %}">View All</a></h6>
+				</a>
+			</div>
+		</div>
+		<hr>
+		<div class="row" style="font-size: 2px;">
+<!-- 			<div class="col-md-2">
+				<img src="{% static "img/hotels_home.jpg" %}" style="width: 165px; height: 165px;">
+				<div class="centered"><h6>The best Hostels in Kampala</h6></div>
+			</div> -->
+			<div class="col-md-12">
+				<div class="container-fluid">
+					<div id="owl-hotels" class="owl-carousel owl-theme">
+						{% for h, avg_rating, number_of_reviews in hotels %}
+							<div class="carousel-div">
+								<a href="/detail/{{ h.id }}/{{ h.slug }}/"><img src="{% if h.photos %}{{ h.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" class="img-responsive carousel-img" alt=""></a>
+								<a href="/detail/{{ h.id }}/{{ h.slug }}/"><h6 style="margin-top: 5px; font-weight: 0;">{{ h.name }}</h6></a>
+								<small>{{ h.suburb }} - {{ h.location }}</small>
+				            	<div class="row">
+				            		<div class="col-md-6" style="padding-right: 0px; margin-right: 0px;">
+						            	{% if avg_rating.rating__avg == 0 %}
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 1 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 2 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 3 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% elif avg_rating.rating__avg == 4 %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% else %}
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star" style="color: #ff4c1b;"></i>
+	                                    <i class="fas fa-star"></i>
+	                                    <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+	                                    {% endif %}
+				            		</div>
+				            		<div class="col-md-6">
+				            			<small>{{ number_of_reviews }} Reviews</small>
+				            		</div>
+				            	</div>
+							</div>
+			      		{% endfor %}
+					</div>
+					<div class="customNavigation">
+						<span class="pager-left"><a class="btn btn-link prev"><span class="glyphicon glyphicon-chevron-left"></span></a></span>
+						<span class="pager-right"><a class="btn btn-link next"><span class="glyphicon glyphicon-chevron-right"></span></a></span>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+ 	<div class="container" style="max-width: 930px;">
+		<h5>Locations</h5>
+		<hr>
+    	<div class="row">
+    		{% for location in locations %}
+      		<div class="col-lg-4 col-sm-6 portfolio-item" style="padding-right: 1px; padding-left: 1px;">
+        		<div class="card h-100">
+        			<a href="{% url "business:business_by_location" location.id location.slug %}"><img src="{% if location.image %}{{ location.image.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 200px; object-fit: cover; object-position: center; overflow: hidden;" class="img-responsive" alt=""></a>
+					<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ffffff;"><h3>{{ location.name }}</h3></div>
+        		</div>
+      		</div>
+      		{% endfor %}
+    	</div>
+	</div>
+	<br>
+	<div class="container" style="max-width: 930px;">
+		<h5>Suburbs in and around Kampala</h5>
+		<small>Explore Bars, Restaurants & Cafes by locality</small>
+		<hr>
+    	<div class="row">
+    		{% for suburb in suburbs %}
+      		<div class="col-lg-3 col-sm-6 portfolio-item">
+      		    <label><a href="/suburb/{{ suburb.id }}/{{ suburb.slug }}/">{{ suburb.name }}</a></label>
+      		</div>
+      		{% endfor %}
+    	</div>
+	</div>
+	<br>
+
+	<div class="container" style="max-width: 930px; background-image: url('static/img/restaurants.jpg')">
+                <div class="row">
+                    <div class="col-lg-10 col-md-11 mx-auto">
+                        <div class="site-heading" style="padding: 40px 0;">
+                            <h5 style="text-align: center; color: #ffffff;">Add Restaurants/Bars/Cafes/Hotels</h5>
+                            <h5 style="text-align: center; color: #ffffff;">Join Us</h5>
+                            <form action="{% url "business:business" %}">
+                                <button type="submit" class="btn btn-block btn-primary border-radius" style="background: #ff4c1b; border-color: #ff4c1b;">Add Your Business</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="text-align: center;">
+            <small style="text-align: center;">Favorite places not yet on Sowani? </small><small style="color: #ff4c1b;" >Suggest a place.</small>
+        </div>
+
+</div>
+	
+{% endblock %}
+</body>
+</html>

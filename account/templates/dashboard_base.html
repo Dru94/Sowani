@@ -1,0 +1,750 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Civic Source{% endblock %}</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'demo/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/star-rating.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.5/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <script src="js/bootstrap-star-rating/star-rating.js" type="text/javascript"></script>    
+  	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+  	<script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.5/js/star-rating.js"></script>
+    <style type="text/css">
+        .fa-star{
+            font-size: 50px;
+        }
+    </style>
+    <style type="text/css">
+        .tab {
+          overflow: hidden;
+          background-color: #ffa726;
+        }
+
+        .tab button {
+          background-color: inherit;
+          float: left;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 14px 16px;
+          transition: 0.3s;
+        }
+
+        .tab button:hover {
+          background-color: #ddd;
+        }
+
+        .tab button.active {
+          background-color: #ccc;
+        }
+
+        .tabcontent {
+          display: none;
+          padding: 6px 12px;
+          border-top: none;
+        } 
+    </style>
+    <style type="text/css">
+        @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+        /* Styling h1 and links
+        ––––––––––––––––––––––––––––––––– */
+        h1[alt="Simple"] {color: white;}
+        a[href], a[href]:hover {color: grey; font-size: 0.5em; text-decoration: none}
+
+        body
+
+        .starrating > input {display: none;}  /* Remove radio buttons */
+
+        .starrating > label:before { 
+          content: "\f005"; /* Star */
+          margin: 2px;
+          font-size: 8em;
+          font-family: FontAwesome;
+          display: inline-block; 
+        }
+
+        .starrating > label
+        {
+          color: #222222; /* Start color when not clicked */
+        }
+
+        .starrating > input:checked ~ label
+        { color: #ffca08 ; } /* Set yellow color when star checked */
+
+        .starrating > input:hover ~ label
+        { color: #ffca08 ;  } /* Set yellow color when star hover */
+
+    </style>
+    <style type="text/css">
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <style type="text/css">
+        .table_heading {
+            color: #9c27b0;
+        }
+    </style>
+    <style type="text/css">
+      .form-container{
+        background-image:url('my-transparent-png.png');
+        background-repeat:  repeat ; 
+      }
+    </style>
+    <style type="text/css">
+        ul.tab {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        }
+
+        /* Float the list items side by side */
+        ul.tab li {float: left;}
+
+        /* Style the links inside the list items */
+        ul.tab li a {
+        display: inline-block;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 17px;
+        }
+
+        /* Change background color of links on hover */
+        ul.tab li a:hover {background-color: #ddd;}
+
+        /* Create an active/current tablink class */
+        ul.tab li a:focus, .active {background-color: #ccc;}
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper ">
+      	{% block content %}
+      	{% endblock %}
+</div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('.success_message').fadeOut('slow');
+            },5000);
+        });
+    </script>
+
+    <script>
+        Highcharts.chart('container_bar', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '',
+            },
+            yAxis: {
+                  title: {
+                      enabled: true,
+                      text: 'Total Ratings Per Activity',
+                      style: {
+                          fontWeight: 'normal'
+                      }
+                  }
+              },
+            xAxis: {
+                categories: {{ periods_list|safe }}
+            },
+            series: [{
+                name: 'Periods',
+                colorByPoint: true,
+                colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+                data: {{ totals_for_each_period|safe }}
+            }]
+        });
+    </script>
+
+    <script>
+        Highcharts.chart('first_quarter_bar_graph', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            yAxis: {
+                  title: {
+                      enabled: true,
+                      text: 'First Quarter Activities Ratings',
+                      style: {
+                          fontWeight: 'normal'
+                    }
+                }
+            },
+            xAxis: {
+                categories: {{ first_quarter_activities|safe }}
+            },
+            series: [{
+                name: ['First Quarter'],
+                colorByPoint: true,
+                colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+                data: {{ first_quarter_activities_ratings|safe }}
+            }]
+        });
+
+        Highcharts.chart('second_quarter_bar_graph', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            yAxis: {
+                  title: {
+                      enabled: true,
+                      text: 'Second Quarter Activities Ratings',
+                      style: {
+                          fontWeight: 'normal'
+                    }
+                }
+            },
+            xAxis: {
+                categories: {{ second_quarter_activities|safe }}
+            },
+            series: [{
+                name: ['Second Quarter'],
+                colorByPoint: true,
+                colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+                data: {{ second_quarter_activities_ratings|safe }}
+            }]
+        });
+
+        Highcharts.chart('third_quarter_bar_graph', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            yAxis: {
+                  title: {
+                      enabled: true,
+                      text: 'Third Quarter Activities Ratings',
+                      style: {
+                          fontWeight: 'normal'
+                    }
+                }
+            },
+            xAxis: {
+                categories: {{ third_quarter_activities|safe }}
+            },
+            series: [{
+                name: ['Third Quarter'],
+                colorByPoint: true,
+                colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+                data: {{ third_quarter_activities_ratings|safe }}
+            }]
+        });
+
+        Highcharts.chart('fourth_quarter_bar_graph', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            yAxis: {
+                  title: {
+                      enabled: true,
+                      text: 'End of Year Activities Ratings',
+                      style: {
+                          fontWeight: 'normal'
+                    }
+                }
+            },
+            xAxis: {
+                categories: {{ fourth_quarter_activities|safe }}
+            },
+            series: [{
+                name: ['End of Year'],
+                colorByPoint: true,
+                colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+                data: {{ fourth_quarter_activities_ratings|safe }}
+            }]
+        });
+    </script>
+  	<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  	<script type="text/javascript" src="{% static 'js/core/jquery.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/core/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/star-rating.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/core/bootstrap-material-design.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/plugins/chartist.min.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'js/plugins/bootstrap-notify.js' %}"></script>
+  	<script type="text/javascript" src="{% static 'demo/demo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/highcharts.src.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            
+        });
+    </script>
+  	<script>
+    		$(document).ready(function() {
+    		  md.initDashboardPageCharts();
+    		});
+  	</script>
+  	<script>
+        $(document).ready(function() {
+          demo.initDashboardPageCharts();
+        });
+    </script>
+  	<script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+      Highcharts.chart('period_activities', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'First Quarter'
+          },
+          yAxis: {
+              title: {
+                  enabled: true,
+                  text: 'Total Ratings Per Activity',
+                  style: {
+                      fontWeight: 'normal'
+                  }
+              }
+          },
+          xAxis: {
+              categories: {{ activity_names_first_period|safe }}
+          },
+          series: [{
+              name: 'First Quarter',
+              colorByPoint: true,
+              colors: ['#4B0082', '#FF8C00', '#1E90FF', '#0000FF', '#0066FF', '#00CCFF', '#0000FF', '#0066FF', '#00CCFF'],
+              data: {{ activities_list_periods|safe }}
+          }]
+      });
+    </script>
+    <script>
+      Highcharts.chart('period_activities1', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Second Quarter'
+          },
+          xAxis: {
+              categories: {{ list_of_periods|safe }}
+          },
+          series: [{
+              name: 'Second Quarter',
+              colorByPoint: true,
+              data: [{name: 'Chrome Mobile', y: 4}, {name: 'Chrome', y: 9}]
+          }]
+      });
+    </script>
+    <script>
+      Highcharts.chart('period_activities2', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Third Quarter'
+          },
+          xAxis: {
+              categories: {{ list_of_periods|safe }}
+          },
+          series: [{
+              name: 'Third Quarter',
+              colorByPoint: true,
+              data: [{name: 'Chrome Mobile', y: 4}, {name: 'Chrome', y: 9}]
+          }]
+      });
+    </script>
+    <script>
+      Highcharts.chart('period_activities3', {
+          chart: {
+              type: 'column'
+          },
+          title: {
+              text: 'Fourth Quarter'
+          },
+          xAxis: {
+              categories: {{ list_of_periods|safe }}
+          },
+          series: [{
+              name: 'Fourth Quarter',
+              colorByPoint: true,
+              data: [{name: 'Chrome Mobile', y: 4}, {name: 'Chrome', y: 9}]
+          }]
+      });
+    </script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total Per Period'
+            },
+            xAxis: {
+              title: {
+              text: 'Periods'
+              }
+            },
+            yAxis: {
+              title: {
+              text: 'Total Ratings Per Period'
+              }
+            },
+            series: [{
+                name: 'First Quarter',
+                data: {{ first_quarter }},
+                color: 'orange'
+            }, {
+                name: 'Second Quarter',
+                data: {{ second_quarter }},
+                color: 'purple'
+            }, {
+                name: 'Third Quarter',
+                data: {{ third_quarter }},
+                color: 'green'
+            }
+            , {
+                name: 'Fourth Quarter',
+                data: {{ fourth_quarter }},
+                color: 'blue'
+            }]
+        });
+    </script>
+    <script type="text/javascript">
+        function openCity(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        } 
+    </script>
+    <style type="text/css">
+        #map{
+            width: 100%;
+            height: 350px;
+        }
+
+        .mapContainer{
+            width:55%;
+            position: relative;
+        }
+        .mapContainer a.direction-link {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 100010;
+            color: #FFF;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 25px;
+            padding: 8px 20px 8px 20px;
+            background: #0094de;
+            background-image: url('direction-icon.png');
+            background-position: left center;
+            background-repeat: no-repeat;
+        }
+        .mapContainer a.direction-link:hover {
+            text-decoration: none;
+            background: #0072ab;
+            color: #FFF;
+            background-image: url('direction-icon.png');
+            background-position: left center;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    {% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#s1').click(function(){
+                $(".fa-star").css("color","black");
+                $("#s1").css("color","orange");
+                alert("1");
+            });
+            $('#s2').click(function(){
+                $(".fa-star").css("color","black");
+                $("#s1,#s2").css("color","orange");
+                alert("2");
+            });
+            $('#s3').click(function(){
+                $(".fa-star").css("color","black");
+                $("#s1,#s2,#s3").css("color","orange");
+                alert("3");
+            });
+            $('#s4').click(function(){
+                $(".fa-star").css("color","black");
+                $("#s1,#s2,#s3,#s4").css("color","orange");
+                alert("4")
+            });
+            $('#s5').click(function(){
+                $(".fa-star").css("color","black");
+                $(".fa-star").css("color","orange");
+                alert("5");
+            });
+
+            $('#delete_report_overview').click(function(){
+                var grantee_id = $(this).attr('grantee_id');
+                var grantee_slug = $(this).attr('grantee_slug');
+                var report_overview_id = $(this).attr('report_overview_id');
+
+                url = '/grantees/' + grantee_id + '/' + grantee_slug + '/' + report_overview_id + '/'
+
+                $.ajax({ 
+                    url: url,
+                    method:"POST",
+                    data:{
+                        "grantee_id": grantee_id, 
+                        "grantee_slug": grantee_slug, 
+                        "report_overview_id": report_overview_id,
+                        "csrfmiddlewaretoken": '{{csrf_token}}',
+                    },
+                    success:function(data){
+                        alert("The report overview has been deleted");
+                    }
+                });
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#update_rating_button').click(function(){
+                var grantee_id = $(this).attr('grantee_id');
+                var donor_id = $(this).attr('donor_id');
+                var period_id = $(this).attr('period_id');
+                var activity_id = $(this).attr('activity_id');
+                var project_id = $(this).attr('project_id');
+                var star_rating = $(this).attr('star-rating-value');
+                alert(star_rating);
+
+                var rating = 5;
+
+                url = '/projects/' + donor_id + '/' + grantee_id + '/' + project_id + '/' + period_id + '/' + activity_id + '/' + rating + '/';
+
+                $.ajax({
+                    url: url,
+                    method:"POST",
+                    data:{
+                      "donor_id": donor_id,
+                      "grantee_id": grantee_id,
+                      "period_id": period_id,
+                      "activity_id": activity_id,
+                      "project_id": project_id,
+                      "rating": rating,
+                      "csrfmiddlewaretoken": '{{csrf_token}}',
+                    },
+                    success:function(data){
+                          alert("The report activity has been updated");
+                    }
+                })
+
+            });
+        })
+    </script>
+    {% endblock %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpc0HyfR7ue4X2vckTZCiRFpj2cxLSxGs"></script>
+    <script>
+        var myCenter = new google.maps.LatLng(0.308830, 32.577911);
+        function initialize(){
+            var mapProp = {
+                center:myCenter,
+                zoom:12,
+                mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("map"),mapProp);
+
+            var marker = new google.maps.Marker({
+                position:myCenter,
+            });
+
+            marker.setMap(map);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <script>
+        Highcharts.chart('containerGraph', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Titanic Survivors by Ticket Class'
+            },
+            xAxis: {
+                list_of_periods: {{ list_of_periods|safe }}
+            },
+            series: [{
+                name: 'Survived',
+                data: {{ survived_series }},
+                color: 'green'
+            }, {
+                name: 'Not survived',
+                data: {{ not_survived_series }},
+                color: 'red'
+            }]
+        });
+    </script>
+    <script type='text/javascript'>
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
+        }
+        function cloneMore(selector, prefix) {
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+                var id = 'id_' + name;
+                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            var conditionRow = $('.form-row:not(:last)');
+            conditionRow.find('.btn.add-form-row')
+            .removeClass('btn-success').addClass('btn-danger')
+            .removeClass('add-form-row').addClass('remove-form-row')
+            .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+            return false;
+        }
+        function deleteForm(prefix, btn) {
+            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            if (total > 1){
+                btn.closest('.form-row').remove();
+                var forms = $('.form-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i=0, formCount=forms.length; i<formCount; i++) {
+                    $(forms.get(i)).find(':input').each(function() {
+                        updateElementIndex(this, prefix, i);
+                    });
+                }
+            }
+            return false;
+        }
+        $(document).on('click', '.add-form-row', function(e){
+            e.preventDefault();
+            cloneMore('.form-row:last', 'form');
+            return false;
+        });
+        $(document).on('click', '.remove-form-row', function(e){
+            e.preventDefault();
+            deleteForm('form', $(this));
+            return false;
+        });
+    </script>
+    <script>
+    jQuery(document).ready(function () {
+        $('#star-rating-value').rating({
+              min: 0,
+              max: 5,
+              step: 1,
+              size: 'lg',
+              showClear: false
+           });
+        
+        $('#star-rating-value').on('rating.change', function() {
+            alert("The selected rating is: " + $('#star-rating-value').val());
+        });
+        
+    });
+</script>
+
+<script type='text/javascript'>
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+    if (total > 1){
+        btn.closest('.form-row').remove();
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+</script>
+</body>
+</html>

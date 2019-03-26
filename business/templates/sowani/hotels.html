@@ -1,0 +1,90 @@
+{% extends 'content_base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+  	<div class="container">
+    	<div class="row">
+    		<div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
+    			<div class="card my-3">
+    				<h5 class="card-header">Locations</h5>
+    				<div class="card-body">
+    					{% for l in locations %}
+    						<div class="row">
+    							<div class="col-md-4" style="padding-right: 2px;">
+    								<img src="{% if l.image %}{{ l.image.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 30px;">
+    							</div>
+    							<div class="col-md-8" style="padding-left: 5px;">
+    								<a href="#">{{ l.name }}</a><br>
+    							</div>
+    						</div>
+							<hr>
+						{% endfor %}
+    				</div>
+    			</div>
+    			<div class="card my-3">
+    				<h5 class="card-header">Suburbs</h5>
+    				<div class="card-body">
+    					{% for s in suburbs %}
+							<a href="#">{{ s.name }}</a>
+							<hr style="padding-top: 2px; padding-bottom: 2px;">
+						{% endfor %}
+
+    				</div>
+    			</div>
+    			<div class="card my-3">
+    				<h5 class="card-header">Promotions</h5>
+    				<div class="card-body">
+    					<div class="row">
+    						{% for p in promotions %}
+    							<div class="col-md-6" style="padding-right: 2px; padding-left: 2px;">
+    								<a href="#">
+										<img src="{% if p.images %}{{ p.images.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 50px;">
+									</a>
+    							</div>
+    							<div class="col-md-6" style="padding-right: 2px; padding-left: 2px;">
+    								<a href="#"><strong>{{ p.business }}</strong></a>
+    								<small>{{ p.name }}</small>
+    							</div>
+							{% endfor %}
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="col-md-7" style="padding-left: 5px; padding-right: 5px;">
+    			<div class="card my-3">
+    				<h5 class="card-header">Hotels</h5>
+    				<div class="card-body">
+    					<div class="row">
+    						{% for h in hotels %}
+    						<div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
+								<a href="{% url "business:hotel_detail" h.id h.slug %}">
+									<img src="{% if h.photos %}{{ h.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 150px;">
+								</a>
+								<h6><strong><a href="#">{{ h.name }}</a></strong></h6>
+								<small>{{ h.location }}</small>
+							</div>
+							{% endfor %}	
+    					</div>
+    					<hr>
+    					<small><a href="#">Read More</a></small>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="col-md-3" style="padding-left: 5px; padding-right: 5px;">
+    			<div class="card my-3">
+    			<h5 class="card-header">Search</h5>
+    			<div class="card-body">
+    			</div>
+    			</div>
+    		</div>
+    	</div>
+  	</div>
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load trans blocktrans from i18n %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+	<header class="masthead" style="background-image: url({{ hotel.photos.url }}); margin-bottom: -65px;">
+    	<div class="overlay"></div>
+    	<div class="container">
+      		<div class="row">
+        		<div class="col-lg-8 col-md-10 mx-auto">
+          			<div class="site-heading">
+          				<div class="row">
+          					<div class="col-md-8">
+          						<h2><strong>{{ hotel.name }} - {{ hotel.category }}</strong></h2>
+          					</div>
+          					<div class="col-md-4">
+          						<h2><span class="badge badge-secondary">{{ hotel.total_rating }}</span></h2>
+          					</div>
+          				</div>
+        				<h5>{{ hotel.slogan }}</h5>
+          			</div>
+        		</div>
+      		</div>
+    	</div>
+  	</header>
+	<div class="container" style="position: relative; z-index: 1; max-width: 950px;">
+    	<div class="row">
+    		<div class="col-md-8" style="padding-left: 5px; padding-right: 5px;">    				
+    			<div class="card-body">
+    				<div class="tab">
+						<button class="tablinks" onclick="openCity(event, 'Overview')"><small>Overview</small></button>
+						<button class="tablinks" onclick="openCity(event, 'Menu')"><small>Menu</small></button>
+						<button class="tablinks" onclick="openCity(event, 'Photos')"><small>Photos</small></button>
+						<button class="tablinks" onclick="openCity(event, 'Reviews')"><small>Reviews</small></button>
+					</div>
+					<div id="Overview" class="tabcontent">
+						<div class="row">
+		            		<div class="col-md-4">
+			            		<i class="fas fa-star"></i>
+			            		<i class="fas fa-star"></i>
+			            		<i class="fas fa-star"></i>
+			            		<i class="fas fa-star"></i>
+			            		<i class="fas fa-star"></i>
+			            		<small>2.5</small>
+		            		</div>
+		            		<div class="col-md-6">
+			            		<i class="fas fa-comment"></i>
+			            		<small>67 Reviews</small>
+		            		</div>
+		            	</div>
+		            	<div class="row">
+		            		<div class="col-md-3">
+		            			<p>Tags: {{ hostel.tag.name }}</p>
+		            		</div>
+		            		<div class="col-md-3">
+		            			
+		            		</div>
+		            	</div>
+		            	<p>Located in {{ hotel.location }}'s suburb of {{ hotel.suburb }} </p>
+		            	<p>{{ hotel.description }}</p>
+		            	<small>Opening Time: <strong>{{ hotel.openTime }}</strong> - Closing Time: <strong>{{ hotel.closeTime }}</strong></small>
+					</div>
+
+					<div id="Menu" class="tabcontent">
+						{% for menu in menus %}
+							<img src="{% if menu.photos %}{{ menu.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%;">
+						{% endfor %}
+					</div>
+
+					<div id="Photos" class="tabcontent">
+						<h3>Photos</h3>
+						<p>Tokyo is the capital of Japan.</p>
+					</div>
+					<div id="Reviews" class="tabcontent">
+						<h3>Reviews</h3>
+						<p>Tokyo is the capital of Japan.</p>
+					</div>
+    			</div>
+    		</div>
+    		<div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
+    			<div class="card my-3">
+	    			<h5 class="card-header">Make Your Reservations</h5>
+	    			<div class="card-body">
+	    				<form method="POST" action="" enctype="multipart/form-data">
+                          	{% for hidden in form.hidden_fields %}
+                            	{{ hidden }}
+                            	{% endfor %}
+                          	{% for field in form.visible_fields %}
+	                        <div class="">
+	                          	<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                          		{{ field|add_class:'form-control' }}
+                          		{% for error in field.errors %}
+                          			<span class="help-block">{{ error }}</span>
+                          		{% endfor %}
+	                        </div>
+                        	{% endfor %}
+                        	{% csrf_token %}
+                        	<button type="submit" class="btn btn-primary" style="align-content: center;">Submit Reservation</button>
+                        </form>
+	    			</div>
+    			</div>
+    			<div class="card my-3">
+	    			<h5 class="card-header">Near by {{ hotel.category }}</h5>
+	    			<div class="card-body">
+	    				{% for l in near_by_hotels %}
+    						<div class="row">
+    							<div class="col-md-3" style="padding-right: 2px;">
+    								<img src="{% if l.photos %}{{ l.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 30px;">
+    							</div>
+    							<div class="col-md-9" style="padding-left: 5px;">
+    								<a href="#"><small>{{ l.name }}</small></a><br>
+    							</div>
+    						</div>
+							<hr>
+						{% endfor %}
+	    			</div>
+    			</div>
+    		</div>
+    	</div>
+  	</div>
+	{{ hotel.tag }}
+	{% endblock %}
+</body>
+</html>

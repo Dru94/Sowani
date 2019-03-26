@@ -1,0 +1,150 @@
+{% extends 'content_base.html' %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+  	<div class="container">
+    	<div class="row">
+    		<div class="col-md-2" style="padding-left: 5px; padding-right: 5px;">
+    			<div class="card my-3">
+    				<h6 class="card-header">Locations</h6>
+    				<div class="card-body">
+    					{% for l in locations %}
+                        <small><a href="">{{ l.name }}</a></small>
+						{% endfor %}
+    				</div>
+    			</div>
+    			<div class="card my-3">
+    				<h6 class="card-header">Suburbs</h6>
+    				<div class="card-body">
+    					{% for s in suburbs %}
+                            <small><a href="">{{ s.name }}</a></small>
+						{% endfor %}
+
+    				</div>
+    			</div>
+    			<div class="card my-3">
+    				<h6 class="card-header">Promotions</h6>
+    				<div class="card-body">
+    					<div class="row">
+    						{% for p in promotions %}
+    							<div class="col-md-6" style="padding-right: 2px; padding-left: 2px;">
+    								<a href="#">
+										<img src="{% if p.images %}{{ p.images.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 50px;">
+									</a>
+    							</div>
+    							<div class="col-md-6" style="padding-right: 2px; padding-left: 2px;">
+    								<a href="#"><strong>{{ p.business }}</strong></a>
+    								<small>{{ p.name }}</small>
+    							</div>
+							{% endfor %}
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+
+            <div class="col-md-8" style="padding-left: 5px; padding-right: 5px;">
+                <div class="card my-3"> 
+                    <h6 class="card-header" style="text-align: center; color: #ff4c1b;">Restaurants</h6>
+                    <div class="card-body">
+                        {% for b in bars %}
+                        <div class="row">
+                            <div class="col-md-4" style="padding-right: 5px; padding-left: 5px;">
+                                <a href="{% url "business:business_detail" b.id b.slug %}">
+                                    <img src="{% if b.photos %}{{ b.photos.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; height: 150px;">
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h6><a href="#">{{ b.name }} - {{ b.suburb }}</a></h6>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="/detail/{{ b.id }}/{{ b.slug }}/"><h6 style="color: red;">View</h6></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {% if b.total_rating == 0 %}
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% elif b.total_rating == 1 %}
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% elif b.total_rating == 2 %}
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% elif b.total_rating == 3 %}
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% elif b.total_rating == 4 %}
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% else %}
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                                        <i class="fas fa-star"></i>
+                                        <small class="badge badge-success">{{ b.total_rating }}/5</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small>39 Reviews</small>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-left: 0px;">
+                                    <small>{{ b.description|truncatechars:255 }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="max-width: 930px; background-image: url('static/img/restaurants.jpg')">
+                <div class="row">
+                    <div class="col-lg-10 col-md-11 mx-auto">
+                        <div class="site-heading" style="padding: 40px 0;">
+                            <h5 style="text-align: center; color: #ffffff;">Add Restaurants/Bars/Cafes/Hotels</h5>
+                            <h5 style="text-align: center; color: #ffffff;">Join Us</h5>
+                            <form action="{% url "business:add_business" %}">
+                                <button type="submit" class="btn btn-block btn-primary border-radius" style="background: #ff4c1b; border-color: #ff4c1b;">Add Your Business</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="text-align: center;">
+            <small style="text-align: center;">Favorite places not yet on Sowani? </small><small style="color: #ff4c1b;" >Suggest a place.</small>
+    	</div>
+  	</div>
+{% endblock %}
+</body>
+</html>

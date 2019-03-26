@@ -1,0 +1,56 @@
+{% extends 'dashboard_base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load trans blocktrans from i18n %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+<div class="container">
+	<div class="content" style="margin-top: 80px;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header card-header-primary" style="background-color: #ff4c1b;">
+						<h4 class="card-title"><strong>Add New Business</strong></h4>
+					</div>
+					<div class="card-body">
+						<form method="POST" action="" enctype="multipart/form-data">
+                          	{% for hidden in businessForm.hidden_fields %}
+                            	{{ hidden }}
+                            	{% endfor %}
+                          	{% for field in businessForm.visible_fields %}
+	                        <div class="">
+	                          	<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                          		{{ field|add_class:'form-control' }}
+                          		{% for error in field.errors %}
+                          			<span class="help-block">{{ error }}</span>
+                          		{% endfor %}
+	                        </div>
+                        	{% endfor %}
+                        	{{ formset.management_form }}
+						    {% for form in formset %}
+						        {{ form }}
+						    {% endfor %}
+
+                        	{% csrf_token %}
+                        	<input type="submit" name="submit" value="Add New Business" />
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+
+{% endblock %}
+</body>
+</html>

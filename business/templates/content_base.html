@@ -1,0 +1,230 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	  	<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+	  	<link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+  		<link href="{% static 'css/blog-home.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  		<style type="text/css">
+  			body {
+  				background: #ededed;
+  			}
+  		</style>
+
+  		<style type="text/css">
+        footer.nb-footer {
+            background: #222;
+            border-top: 4px solid #b78c33; 
+        }
+        footer.nb-footer .about {
+            margin: 0 auto;
+            margin-top: 40px;
+            max-width: 1170px;
+            text-align: center; 
+        }
+        footer.nb-footer .about p {
+            font-size: 13px;
+            color: #999;
+            margin-top: 30px; 
+        }
+        footer.nb-footer .about .social-media {
+            margin-top: 15px; 
+        }
+        footer.nb-footer .about .social-media ul li a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 50%;
+            font-size: 16px;
+            color: #b78c33;
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+        }
+        footer.nb-footer .about .social-media ul li a:hover {
+            background: #b78c33;
+            color: #fff;
+            border-color: #b78c33; 
+        }
+        footer.nb-footer .footer-info-single {
+            margin-top: 30px; 
+        }
+        footer.nb-footer .footer-info-single .title {
+            color: #aaa;
+            text-transform: uppercase;
+            font-size: 16px;
+            border-left: 4px solid #b78c33;
+            padding-left: 5px; 
+        }
+        footer.nb-footer .footer-info-single ul li a {
+            display: block;
+            color: #aaa;
+            padding: 2px 0; 
+        }
+        footer.nb-footer .footer-info-single ul li a:hover {
+            color: #b78c33; 
+        }
+        footer.nb-footer .footer-info-single p {
+            font-size: 13px;
+            line-height: 20px;
+            color: #aaa; 
+        }
+        footer.nb-footer .copyright {
+            margin-top: 15px;
+            background: #111;
+            padding: 7px 0;
+            color: #999; 
+        }
+        footer.nb-footer .copyright p {
+            margin: 0;
+            padding: 0; 
+        }
+    </style>
+    <style type="text/css">
+        .carousel-div{
+            margin-left: 10px; 
+            border-color: #ccc; 
+            border-width: 1px; 
+            border-style: solid; 
+            border-radius: 5px;
+        }
+
+        .carousel-img{
+            width: 100%; 
+            height: 150px; 
+            object-fit: cover; 
+            object-position: center; 
+            overflow: hidden;
+        }
+    </style>
+
+    <style type="text/css">
+        .fas {
+        font-size: 14px;
+        } 
+
+        small {
+        font-size: 13px;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #ff4c1b;">
+        <div class="container">
+            <a class="navbar-brand" href="{% url "business:home" %}">Sowani</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <form>
+                <div class="row">
+                    <div class="col-12 col-md-9 mb-2 mb-md-0">
+                        <input type="email" class="form-control form-control-lg" placeholder="Search for Bar, Cafe, Restaurant ..." style="height: 40px; font-size: 16px;">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button type="submit" class="btn btn-primary warning" style="border: #ffffff; height: 40px; border-color: #fff; border-radius: 10px;">Search</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "business:home" %}">Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:logout" %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:login" %}">Login</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:signup" %}">Create Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+{% block content %}
+{% endblock %}
+    <footer class="nb-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="about">
+                        <h5 style="color: #ffffff;">Gain access to offers, promotions and exclusive experiences(you can subscribe anytime)</h5>
+                        <h6 style="color: #ff4c1b;">Enter your email to subscribe</h6>
+                        <form action="/action_page.php">
+                            <input type="email" placeholder="Enter your email" name="search" class="form-control-lg">
+                            <button type="submit" class="btn btn-primary border-radius" style="background: #ff4c1b; border: #ff4c1b; height: 40px; color: #ffffff;">Submit</button>
+                        </form>
+                        <div class="social-media">
+                            <ul style="overflow-x:hidden; white-space:nowrap; width: 100%;">
+                                <li style="display:inline; "><a href="http://www.nextbootstrap.com/" title=""><i class="fab fa-facebook-f"></i></a></li>
+                                <li style="display:inline; "><a href="http://www.nextbootstrap.com/" title=""><i class="fab fa-twitter"></i></a></li>
+                                <li style="display:inline; "><a href="http://www.nextbootstrap.com/" title=""><i class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="color: #ccc; border: solid; border-width: 1px;">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">About Sowani</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> About</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Blog</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Customer information</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Add your business</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Suggest a business</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Chain your listing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Join Us</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Twitter</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Facebook</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Cities</h2>
+                        <ul class="list-unstyled">
+                            {% for location in locations %}
+                                <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> {{ location.name }}</a></li>
+                            {% endfor %}   
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

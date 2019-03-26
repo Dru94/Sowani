@@ -1,0 +1,84 @@
+{% extends 'dashboard_base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <p>PROJECTS under {{ donor }}</p>
+            <div class="row">
+                <div class="col-md-12">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                {% for project in projects %}
+                <div class="col-md-4">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <h4><strong>{{ project.name }}</strong></h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-category">
+                                <span class="text-success">
+                                    <i class="fas fa-project-diagram"></i> 
+                                    Donor:
+                                </span> {{ project.donor }}
+                            </p>
+                            <p class="card-category">
+                                <span class="text-success">
+                                    <i class="fas fa-project-diagram"></i> 
+                                    Grantee: 
+                                </span> {{ project.grantee }}
+                            </p>
+                            <p class="card-category">
+                                
+                            </p>
+                            <p class="card-category">
+                                
+                            </p>
+                        </div>
+                        <form action="{{ project.get_absolute_url }}">
+                            <button type="submit" class="btn btn-primary" style="margin-left: 15px;">View Progress</button>
+                        </form>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="text-success">
+                                    <i class="fa fa-clock-o"></i> 
+                                    <small>Start Date:</small>
+                                </span><small>{{ project.startDate|date:"d M, Y" }}</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="text-success">
+                                    <i class="fa fa-clock-o"></i> 
+                                    <small>End Date:</small>
+                                </span><small>{{ project.endDate|date:"d M, Y" }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

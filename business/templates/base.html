@@ -1,0 +1,538 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} Sowani {% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/sowani.jpg' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/clean-blog.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/owl.theme.default.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/rating.css' %}">
+    <link rel="stylesheet" href="{% static 'css/rating.css' %}">
+    <style type="text/css">
+        .centered {
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            margin-left: 50%;
+            margin-right: 20%;
+            transform: translate(-50%, -50%);
+        }
+        nav > .nav.nav-tabs{
+
+          border: none;
+            color:#fff;
+            background:#272e38;
+            border-radius:0;
+
+        }
+        nav > div a.nav-item.nav-link,
+        nav > div a.nav-item.nav-link.active
+        {
+            border: none;
+            padding: 15px 15px;
+            color:#fff;
+            background:#272e38;
+            border-radius:0;
+        }
+
+        nav > div a.nav-item.nav-link.active:after
+         {
+          content: "";
+          position: relative;
+          bottom: -60px;
+          left: -10%;
+          border: 15px solid transparent;
+          border-top-color: #e74c3c ;
+        }
+        .tab-content{
+            background: #fdfdfd;
+            line-height: 25px;
+            border: 1px solid #ddd;
+            border-top:5px solid #e74c3c;
+            border-bottom:5px solid #e74c3c;
+            padding:25px 25px;
+        }
+
+        nav > div a.nav-item.nav-link:hover,
+        nav > div a.nav-item.nav-link:focus
+        {
+            border: none;
+            background: #e74c3c;
+            color:#fff;
+            border-radius:0;
+            transition:background 0.20s linear;
+        }
+    </style>
+
+    <style type="text/css">
+        section {
+            padding: 60px 0;
+        }
+
+        section .section-title {
+            text-align: center;
+            color: #007b5e;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+        #tabs{
+            background: #007b5e;
+            color: #eee;
+        }
+        #tabs h6.section-title{
+            color: #eee;
+        }
+
+        #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #f3f3f3;
+            background-color: transparent;
+            border-bottom: 4px solid !important;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #tabs .nav-tabs .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            color: #eee;
+            font-size: 20px;
+        }
+            </style>
+
+            <style type="text/css">
+                #exTab1 .tab-content {
+          color : white;
+          background-color: #428bca;
+          padding : 5px 15px;
+        }
+
+        #exTab2 h3 {
+          color : white;
+          background-color: #428bca;
+          padding : 5px 15px;
+        }
+
+        /* remove border radius for the tab */
+
+        #exTab1 .nav-pills > li > a {
+          border-radius: 0;
+        }
+
+        /* change border radius for the tab , apply corners on top*/
+
+        #exTab3 .nav-pills > li > a {
+          border-radius: 4px 4px 0 0 ;
+        }
+
+        #exTab3 .tab-content {
+          color : white;
+          background-color: #428bca;
+          padding : 5px 15px;
+        }
+    </style>
+
+    <style type="text/css">
+        header {
+            height: 400px;
+        }
+
+        .logo-size {
+            max-width: 100%;
+            max-height: 100px;
+        }
+
+        .logo-padding {
+            padding: 100px 0;
+        }
+
+        .border-radius {
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+            border-bottom-right-radius: 0.3rem;
+            border-bottom-left-radius: 0.3rem;
+        }
+
+        body {
+            background-color: #ebebeb;
+        }
+    </style>
+       <style type="text/css">
+        footer.nb-footer {
+            background: #222;
+            border-top: 4px solid #b78c33; 
+        }
+        footer.nb-footer .about {
+            margin: 0 auto;
+            margin-top: 40px;
+            max-width: 1170px;
+            text-align: center; 
+        }
+        footer.nb-footer .about p {
+            font-size: 13px;
+            color: #999;
+            margin-top: 30px; 
+        }
+        footer.nb-footer .about .social-media {
+            margin-top: 15px; 
+        }
+        footer.nb-footer .about .social-media ul li a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 50%;
+            font-size: 16px;
+            color: #b78c33;
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+        }
+        footer.nb-footer .about .social-media ul li a:hover {
+            background: #b78c33;
+            color: #fff;
+            border-color: #b78c33; 
+        }
+        footer.nb-footer .footer-info-single {
+            margin-top: 30px; 
+        }
+        footer.nb-footer .footer-info-single .title {
+            color: #aaa;
+            text-transform: uppercase;
+            font-size: 16px;
+            border-left: 4px solid #b78c33;
+            padding-left: 5px; 
+        }
+        footer.nb-footer .footer-info-single ul li a {
+            display: block;
+            color: #aaa;
+            padding: 2px 0; 
+        }
+        footer.nb-footer .footer-info-single ul li a:hover {
+            color: #b78c33; 
+        }
+        footer.nb-footer .footer-info-single p {
+            font-size: 13px;
+            line-height: 20px;
+            color: #aaa; 
+        }
+        footer.nb-footer .copyright {
+            margin-top: 15px;
+            background: #111;
+            padding: 7px 0;
+            color: #999; 
+        }
+        footer.nb-footer .copyright p {
+            margin: 0;
+            padding: 0; 
+        }
+    </style>
+    <style type="text/css">
+        .carousel-div{
+            margin-left: 10px; 
+            border-color: #ebebeb; 
+            border-width: 1px; 
+            border-style: solid; 
+            border-radius: 5px;
+        }
+
+        .carousel-img{
+            width: 100%; 
+            height: 100px; 
+            object-fit: cover; 
+            object-position: center; 
+            overflow: hidden;
+        }
+    </style>
+    <style type="text/css">
+       /* Style the tab */
+        .tab {
+          overflow: hidden;
+          border: 1px solid #ccc;
+          background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+          background-color: inherit;
+          float: left;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 14px 16px;
+          transition: 0.3s;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+          background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+          background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+          display: none;
+          padding: 6px 12px;
+          border: 1px solid #ccc;
+          border-top: none;
+        } 
+    </style>
+    <style type="text/css">
+        .latest-blog-posts {
+        position: relative;
+        .container-fluid {
+        padding: 60px;
+        position: relative;
+        max-width: 1230px;
+        }
+        .thumbnail {
+        margin: 0 15px;
+        }
+        .customNavigation {
+        transform: translateY(-50%);
+        top: calc(50% - 37px);
+        position: absolute;
+        width: 100%;
+        left: 0;
+        }
+        .customNavigation>span {
+        transform: translateY(-50%);
+        top: 50%;
+        position: absolute;
+        }
+        .pager-left {
+        left: calc(0% + 15px);
+        }
+        .pager-right {
+        right: calc(0% + 15px);
+        }
+        .next, .prev {
+        font-size: 28px;
+        color: #ccc;
+        }
+        }
+    </style>
+
+    <style type="text/css">
+        .fas {
+        font-size: 14px;
+        } 
+
+        small {
+        font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #ff4c1b;">
+        <div class="container">
+            <a class="navbar-brand" href="{% url "business:home" %}">Sowani</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "business:home" %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "business:claims" %}">Claims</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "business:dashboard" %}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:logout" %}">Logout {{ request.user.username }}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:login" %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "account:signup" %}">Create Account</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+    <footer class="nb-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="about">
+                        <h5 style="color: #ffffff;">Gain access to offers, promotions and exclusive experiences(you can subscribe anytime)</h5>
+                        <h6 style="color: #ff4c1b;">Enter your email to subscribe</h6>
+                        <form action="/action_page.php">
+                            <input type="email" placeholder="Enter your email" name="search" class="form-control-lg">
+                            <button type="submit" class="btn btn-primary border-radius" style="background: #ff4c1b; border: #ff4c1b; height: 40px; color: #ffffff;">Submit</button>
+                        </form>
+                        <div class="social-media">
+                            <ul style="overflow-x:hidden; white-space:nowrap; width: 100%;">
+                                <li style="display:inline; "><a href="http://www.facebook.com/sowani256/" title=""><i class="fab fa-facebook-f"></i></a></li>
+                                <li style="display:inline; "><a href="http://www.nextbootstrap.com/" title=""><i class="fab fa-twitter"></i></a></li>
+                                <li style="display:inline; "><a href="http://www.instagram.com/sowani_ea" title=""><i class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="color: #ccc; border: solid; border-width: 1px;">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">About Sowani</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> About</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Blog</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Customer information</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Add your business</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Suggest a business</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Chain your listing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Join Us</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Twitter</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Facebook</a></li>
+                            <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info-single">
+                        <h2 class="title">Cities</h2>
+                        <ul class="list-unstyled">
+                            {% for location in locations %}
+                                <li><a href="http://www.nextbootstrap.com/" title=""><i class="fa fa-angle-double-right"></i> {{ location.name }}</a></li>
+                            {% endfor %}   
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/business_carousel.js' %}"></script>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/clean-blog.min.js' %}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var owl = $("#owl-restaurants");
+            owl.owlCarousel({
+                items : 4, 
+                itemsDesktop : [992,3],
+                itemsDesktopSmall : [768,2], 
+                itemsTablet: [480,2], 
+                itemsMobile : [320,1],
+                navText : ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"]
+            });
+            $(".next").click(function(){ owl.trigger('owl.next'); });
+            $(".prev").click(function(){ owl.trigger('owl.prev'); });
+            $('.latest-blog-posts .thumbnail.item').matchHeight();
+        });
+
+        jQuery(document).ready(function($) {
+            var owl = $("#owl-bars");
+            owl.owlCarousel({
+                items : 4, 
+                itemsDesktop : [992,3],
+                itemsDesktopSmall : [768,2], 
+                itemsTablet: [480,2], 
+                itemsMobile : [320,1],
+                navText : ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"]
+            });
+            $(".next").click(function(){ owl.trigger('owl.next'); });
+            $(".prev").click(function(){ owl.trigger('owl.prev'); });
+            $('.latest-blog-posts .thumbnail.item').matchHeight();
+        });
+
+        jQuery(document).ready(function($) {
+            var owl = $("#owl-hotels");
+            owl.owlCarousel({
+                items : 4, 
+                itemsDesktop : [992,3],
+                itemsDesktopSmall : [768,2], 
+                itemsTablet: [480,2], 
+                itemsMobile : [320,1]
+            });
+            $(".next").click(function(){ owl.trigger('owl.next'); });
+            $(".prev").click(function(){ owl.trigger('owl.prev'); });
+            $('.latest-blog-posts .thumbnail.item').matchHeight();
+        });
+    </script>
+    <script type="text/javascript" src="{% static 'js/rating.js' %}"></script>
+    
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

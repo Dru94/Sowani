@@ -1,0 +1,26 @@
+{% extends 'dashboard_base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load trans blocktrans from i18n %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+	{% for p in promotions %}
+		{{ p.business }}<br>
+		{{ p.name }}<br>
+		<img src="{% if p.images %}{{ p.images.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 200px; height: 200px;">
+		{{ p.number_of_reservations }}<br>
+		{{ p.description }}<br>
+		{{ p.startDate }}<br>
+		{{ p.endDate }}<br>
+	{% endfor %}
+{% endblock %}
+</body>
+</html>
+

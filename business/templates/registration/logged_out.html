@@ -1,0 +1,20 @@
+
+{% extends  'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+			<div class="card card-signin my-5">
+				<div class="card-body" style="align-items: center;">
+					<img src="{% static '/img/sowani.jpg' %}" style="width: 70px; height: 40px;">
+					<p>You are logged out!</p>
+					<a  href="{% url 'account:login' %}">Log in again</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

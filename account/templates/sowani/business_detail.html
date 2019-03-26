@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+{% block content %}
+  	<header class="masthead" style="background-image: url({{ business.photos.url }}); margin-bottom: -65px;"></header>
+  	<div class="container" style="position: relative; z-index: 1; max-width: 950px;">
+    	<div class="row">
+    		<div class="col-md-8" style="padding-left: 5px; padding-right: 5px;">
+    			<nav>
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">OverView</a>
+						<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Photos</a>
+						<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Reviews</a>
+						<a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Promotions</a>
+					</div>
+				</nav>
+				<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+						<div class="card my-3">
+		    				<div class="card-body">
+		    					<h2 style="text-align: center; color: #ff4c1b;">{{ business.name }} {{ avg__rating }}</h2>
+		    					<h5 style="text-align: center;">{{ business.slogan }}</h5>
+		    					<hr>
+		    					<div class="row">
+				            		<div class="col-md-4" style="padding-right: 0px; margin-right: 0px;">
+						            	{% if avg_rating.rating__avg == 0 %}
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% elif avg_rating.rating__avg == 1 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% elif avg_rating.rating__avg == 2 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% elif avg_rating.rating__avg == 3 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% elif avg_rating.rating__avg == 4 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% else %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ avg_rating.rating__avg }}/5</small>
+			                            {% endif %}
+				            		</div>
+				            		<div class="col-md-2">
+				            			<small>{{number_of_reviews}} Reviews</small>
+				            		</div>
+				            		<div class="col-md-4">
+				            			<small>Category: {{ business.category }}</small>
+				 
+				            		</div>
+				            	</div>
+				            	<div class="row">
+		            		<div class="col-md-4">
+		            			<small>{{ business.openTime }} - {{ business.closeTime }}</small>
+		            		</div>
+		            		<div class="col-md-2">
+		            			<small>{{ business.phone }}</small>
+		            		</div>
+		            		<div class="col-md-4">
+		            			<small>{{ business.location }} - {{ business.suburb }}</small>
+		            		</div>
+		            	</div>
+		            	<div class="row">
+		            		<div class="col-md-12">
+		            			<p style="font-size: 14px;">{{ business.description }}</p>
+		            		</div>
+		            	</div>
+
+		            	<h6>{{ number_of_images }} Photos</h6>
+		            	<div class="row">
+		            		{% for i in images %}
+								<div class="col-md-4" style="padding-right: 1px; padding-left: 1px;">
+									<img src="{% if i.image %}{{ i.image.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; min-height: 100px; max-height: 120px; overflow: hidden; object-fit: cover; object-position: center;" class="img-responsive" alt="">
+								</div>
+			    			{% endfor %}
+		            	</div>
+		            	<hr>
+		            	
+		            	<h6>Promotions</h6>
+		            	<div class="row">
+		            		{% for p in promotions %}
+		            			<div class="col-md-4" style="padding-right: 1px; padding-left: 1px;">
+		            				<img src="{% if p.images %}{{ p.images.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; min-height: 100px; max-height: 120px; overflow: hidden; object-fit: cover; object-position: center;" class="img-responsive" alt="">
+									<h6>{{ p.name }}</h6>
+									<small>Start: {{ p.startDate }}</small><br>
+									<small>End: {{ p.endDate }}</small>
+		            			</div>
+							{% endfor %}
+		            	</div>
+		            	<hr>
+
+		            	<h6>{{ number_of_reviews }} Reviews</h6>
+		            	<small>Write a review</small>
+		            	<div class="row">
+		            		<div class="col-md-12">
+			            		<form method="POST" action="" enctype="multipart/form-data">
+		                            {% for hidden in reviews_form.hidden_fields %}
+		                                {{ hidden }}
+		                                {% endfor %}
+		                            {% for field in reviews_form.visible_fields %}
+		                            <div class="">
+		                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+		                                {{ field|add_class:'form-control' }}
+		                                {% for error in field.errors %}
+		                                    <span class="help-block">{{ error }}</span>
+		                                {% endfor %}
+		                            </div>
+		                            {% endfor %}
+		                            {% csrf_token %}
+		                            <br>
+		                            <button type="submit" href="/" class="btn btn-primary">Review</button>
+		                        </form>
+		            		</div>
+		            	</div>
+		            	<hr>
+	            		{% for r in reviews %}
+	            		<div class="row">
+	            			<div class="col-md-1">
+	            				<img src="{% static "img/user.png" %}" style="width: 35px; height: 35px;">
+	            			</div>
+	            			<div class="col-md-11">
+	            			{% if r.rating == 0 %}
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% elif r.rating == 1 %}
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% elif r.rating == 2 %}
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% elif r.rating == 3 %}
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% elif r.rating == 4 %}
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% else %}
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="badge badge-success">{{ r.rating }}/5</small>
+                            {% endif %}
+	            			<small>{{ r.created }}</small>
+	            			</div>
+	            		</div>
+	            		<div class="row">
+	            			<div class="col-md-1">
+	            				
+	            			</div>
+	            			<div class="col-md-11">
+		            			<p style="font-size: 14px;">{{ r.comment }}</p>
+	            			</div>
+	            		</div>
+	            		{% endfor %}
+		    				</div>
+		    			</div>
+					</div>
+					<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+						<div class="card my-3">
+		    				<div class="card-body">
+								<div class="row">
+									{% for i in images %}
+										<div class="col-md-4" style="padding-right: 1px; padding-left: 1px;">
+											<img src="{% if i.image %}{{ i.image.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; min-height: 100px; max-height: 120px; overflow: hidden; object-fit: cover; object-position: center;" class="img-responsive" alt="">
+										</div>
+					    			{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+						<div class="card my-3">
+		    				<div class="card-body">
+								<div class="row">
+									<h6>{{ number_of_reviews }} Reviews</h6>
+					            	<hr>
+					            	<small>Write a review</small>
+					            	<div class="row">
+					            		<div class="col-md-12"> 
+					            			<form method="POST" action="" enctype="multipart/form-data">
+					                            {% for hidden in reviews_form.hidden_fields %}
+					                                {{ hidden }}
+					                                {% endfor %}
+					                            {% for field in reviews_form.visible_fields %}
+					                            <div class="">
+					                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+					                                {{ field|add_class:'form-control' }}
+					                                {% for error in field.errors %}
+					                                    <span class="help-block">{{ error }}</span>
+					                                {% endfor %}
+					                            </div>
+					                            {% endfor %}
+					                            {% csrf_token %}
+					                            <br>
+					                            <button type="submit" href="/" class="btn btn-primary">Review</button>
+					                        </form>
+					            		</div>
+					            	</div>
+				            		{% for r in reviews %}
+				            		<div class="row">
+				            			<div class="col-md-1">
+				            				<img src="{% static "img/user.png" %}" style="width: 35px; height: 35px;">
+				            			</div>
+				            			<div class="col-md-11">
+				            			{% if r.rating == 0 %}
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% elif r.rating == 1 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% elif r.rating == 2 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% elif r.rating == 3 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% elif r.rating == 4 %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% else %}
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star" style="color: #ff4c1b;"></i>
+			                            <i class="fas fa-star"></i>
+			                            <small class="badge badge-success">{{ r.rating }}/5</small>
+			                            {% endif %}
+				            			<small>{{ r.created }}</small>
+				            			</div>
+				            		</div>
+				            		<div class="row">
+				            			<div class="col-md-1">
+				            				
+				            			</div>
+				            			<div class="col-md-11">
+					            			<p style="font-size: 14px;">{{ r.comment }}</p>
+				            			</div>
+				            		</div>
+				            		{% endfor %}
+				            	</div>
+				            </div>
+				        </div>
+					</div>
+					<div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+						<div class="card my-3">
+		    				<div class="card-body">
+								<div class="row">
+									{% for p in promotions %}
+									<div class="col-md-4">
+										<img src="{% if p.images %}{{ p.images.url }}{%else %}{% static '/images/logo.png' %}{% endif %}" style="width: 100%; max-height: 300px; overflow: hidden;" class="img-responsive" alt="">
+										<h6>{{ p.name }}</h6>
+										<small>Start: {{ p.startDate }}</small><br>
+										<small>End: {{ p.endDate }}</small>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+    		</div>
+
+            <div class="col-md-4" style="padding-left: 5px; padding-right: 5px;">
+                <div class="card my-3"> 
+                    <h6 class="card-header" style="text-align: center; color: #ff4c1b; font-weight: 1;">Make a reservation</h6>
+                    <div class="card-body">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                                {% endfor %}
+                            {% for field in form.visible_fields %}
+                            <div class="">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field|add_class:'form-control' }}
+                                {% for error in field.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                            {% csrf_token %}
+                            <br>
+                            <button type="submit" href="/" class="btn btn-primary">Reserve</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="max-width: 930px; background-image: url('static/img/restaurants.jpg')">
+                <div class="row">
+                    <div class="col-lg-10 col-md-11 mx-auto">
+                        <div class="site-heading" style="padding: 40px 0;">
+                            <h5 style="text-align: center; color: #ffffff;">Add Restaurants/Bars/Cafes/Hotels</h5>
+                            <h5 style="text-align: center; color: #ffffff;">Join Us</h5>
+                            <form action="{% url "business:add_business" %}">
+                                <button type="submit" class="btn btn-block btn-primary border-radius" style="background: #ff4c1b; border-color: #ff4c1b;">Add Your Business</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="text-align: center;">
+            <small style="text-align: center;">Favorite places not yet on Sowani? </small><small style="color: #ff4c1b;" >Suggest a place.</small>
+    	</div>
+  	</div>
+{% endblock %}
+</body>
+</html>
